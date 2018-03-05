@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>小球运动</title>
+  <style type="text/css">
+  	*{
+  		margin: 0;
+  		padding: 0;
+  	}
+  	.box{
+  		position: absolute;
+  		left:0;
+  		top:0;
+  		width: 50px;
+  		height: 50px;
+  		background: #000;
+  		border-radius: 100%;
+  		transition: background-color .5s ease;
+  	}
+  </style>
+</head>
+<body>
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+	<script type="text/javascript">
+		var oBox = document.getElementsByClassName("box");
+		//获取窗口的宽高
+		var maxW = window.innerWidth || document.documentElement.clientWidth,
+			maxH = window.innerHeight || document.documentElement.clientHeight;
+		
+		for (var i = oBox.length -1; i >= 0; i--) {
+			
+			//初始速度
+			var vx = 3,
+				vy = 5,
+				boxW = oBox[i].clientWidth,
+				boxH = oBox[i].clientHeight;
+			move(oBox[i])
+		}
+		function move(oBox){
+			nowL = oBox.offsetLeft + vx;
+			nowT = oBox.offsetTop + vy;
+
+
+			if (nowL >= maxW -boxW || nowL <= 0 ) {
+				vx = -vx;
+				oBox.style.backgroundColor = colorChar16();
+				if (nowL >= maxW - boxW) {
+					nowL = maxW -boxW;
+				}else if (nowL = 0) {
+					nowL = 0
+				}
+			}
+
+			if (nowT >= maxH -boxH || nowT <= 0 ) {
+				vy = -vy;
+				oBox.style.backgroundColor = colorChar16();
+				if (nowT >= maxH - boxH) {
+					nowT = maxH -boxH;
+				}else if (nowT = 0) {
+					nowT = 0
+				}
+			}
+
+			 oBox.style.left = nowL + "px";
+			 oBox.style.top =nowT + "px";
+			//动画帧
+			window.requestAnimationFrame(function(){
+				move(oBox)
+			})
+		}
+		// move()
+		
+		function colorChar16(){
+			var txt = "#";
+			for (var i = 0; i < 6; i++) {
+				txt += Math.floor(Math.random() * 16).toString(16);
+			}
+			return txt
+		}
+
+	</script>
+</body>
+</html>
