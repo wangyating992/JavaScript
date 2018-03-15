@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>轮播图</title>
+  <style type="text/css">
+	*{margin:0;padding:0;}
+	li{list-style:none;}
+	.banner{
+		position:relative;
+		margin:50px auto 0;
+		width:600px;
+		height:400px;
+	}
+	.img li{
+		position:absolute;
+		left:0;
+		top:0;
+		opacity:0;
+	}
+	.btn{
+		position:absolute;
+		left:0;
+		bottom:0;
+		width:100%;
+		text-align:center;
+	}
+	.btn li{
+		display:inline-block;
+		width:10px;
+		height:10px;
+		border-radius:100%;
+		background:red;
+		cursor:pointer;
+	}
+	.btn li.active{
+		background:blue;
+	}
+	img{
+		vertical-align:top;
+	}
+	.prev,.next{
+		position:absolute;
+		top:50%;
+		margin-top:-20px;
+		width:24px;
+		height:40px;
+		font-size:30px;
+		color:#fff;
+		background:rgba(0,0,0,.5);
+		cursor:pointer;
+	}
+	.prev{
+		left:0;
+	}
+	.next{
+		right:0;
+	}
+  </style>
+ </head>
+ <body>
+	<div class="banner">
+		<ul class="img">
+			<li class="img-li"><img src="images/1.jpg" alt="" /></li>
+			<li class="img-li"><img src="images/2.jpg" alt="" /></li>
+			<li class="img-li"><img src="images/3.jpg" alt="" /></li>
+			<li class="img-li"><img src="images/4.jpg" alt="" /></li>
+		</ul>	
+		<ul class="btn">
+			<li class="btn-li"></li>
+			<li class="btn-li"></li>
+			<li class="btn-li"></li>
+			<li class="btn-li"></li>
+		</ul>
+		<div class="prev">&lt;</div>
+		<div class="next">&gt;</div>
+
+	</div>
+	<script src="js/myBanner.js"></script>
+	<script type="text/javascript">
+		var imgLis = myBanner.getEle.className("img-li"),
+			btnLis = myBanner.getEle.className("btn-li"),
+			oPrev = myBanner.getEle.className("prev")[0],
+			oNext = myBanner.getEle.className("next")[0];
+
+			
+			var _index = 0;
+			imgLis[0].style.opacity = "1";
+			btnLis[0].className = " active";
+			//左右两侧的按钮
+			oPrev.onclick = function(){
+				for(var i = 0;i < imgLis.length;i++){
+				imgLis[i].style.opacity = "0";
+				btnLis[_index].className = "btn-li";
+				//console.log(btnLis[_index].className);
+				}
+				_index--;
+				_index = _index < 0 ? imgLis.length - 1 : _index;
+				imgLis[_index].style.opacity = "1";	
+				//console.log(_index);
+				btnLis[_index].className += " active";
+			}
+			oNext.onclick = function(){
+				for(var i = 0;i < imgLis.length;i++){
+				imgLis[i].style.opacity = "0";
+				btnLis[_index].className = "btn-li";
+				}
+				_index++;
+				_index = _index%imgLis.length;
+				imgLis[_index].style.opacity = "1";
+				btnLis[_index].className += " active";
+			}
+
+			//底部小圆点按钮
+			btnLis.forEach(function(item,index){
+				item.onclick = function(){
+					imgLis.forEach(function(ele,i){
+						ele.style.opacity = '0';
+						btnLis[i].className = "btn-li";
+					})
+					imgLis[index].style.opacity = "1";
+					btnLis[index].className += " active";
+					
+					_index = index;
+				}
+			})
+	</script>
+ </body>
+</html>

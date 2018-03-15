@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+  	<style type="text/css">
+  		#box {
+  			width: 100px;
+  			height: 100px;
+  			background: #000;
+  		}
+  		
+  	</style>
+ </head>
+ <body>
+ 	<div id="box"></div>
+  <script type="text/javascript">
+    // 路程 = 时间 * 速度；
+    // 瞬间速度 = 加速度(a) * 时间
+    //路程 = 1/2*a*t*t;
+    var oBox = document.getElementById("box");
+    var timer = null;
+    oBox.onclick = function(){
+      var startTime = new Date();
+      timer = setInterval(function(){
+        var nowTime =new Date(),
+            time_diff = nowTime - startTime;
+            console.log(time_diff)
+
+            var a = 2 * 500 / Math.pow(1000,2);
+            var s = a * Math.pow(time_diff,2) / 2;
+            if(time_diff > 1000){
+              clearInterval(timer)
+            }
+            oBox.style.width = 100 + s + "px";
+
+      },1000/60)
+    }
+
+  </script>
+ </body>
+ </html>

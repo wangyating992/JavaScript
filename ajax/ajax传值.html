@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>ajax传值问题</title>
+	<link rel="stylesheet" href="">
+	<style>
+	</style>
+</head>
+<body>
+	<script src="AJAX.js"></script>
+	<script>
+		ajax("get","./file.php",{
+			name: "李四",
+			age: 18
+		},function(data){
+			console.log(data)
+		})
+	</script>
+</body>
+</html>

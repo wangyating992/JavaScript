@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>无缝轮播</title>
+  	<style type="text/css">
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      li{
+        list-style: none;
+      }
+  	.box {
+        position: relative;
+        width: 500px;
+        height: 300px;
+        margin:50px auto  0;
+        overflow: hidden;
+  		}
+      .imgBox{
+        position: absolute;
+        left: -500px;
+        top: 0;
+        width: 800%;
+        /*transition: left .8s ease-in-out;*/
+      }
+      .imgBox li{
+        float: left;
+        
+      }
+      .imgBox li img{
+        width:500px;
+        height:300px;
+        vertical-align: top;
+      }
+      .btnBox{
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        text-align:center;
+      }
+      .btnBox li{
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background: blue;
+        border-radius: 100%;
+        cursor: pointer;
+      }
+      .btn{
+        position: absolute;
+        top: 50%;
+        color:#fff;
+        width: 100px
+        height: 50px;
+        margin-top: -25px;
+        line-height: 50px;
+        font-size: 25px;
+        text-align: center;
+        cursor: pointer;
+        background: rgba(0,0,0,.5);
+      }
+      .prev{
+        left: 0;
+      }
+      .next{
+        right: 0;
+      }	
+  	</style>
+ </head>
+ <body>
+ 	<div class="box">
+    <ul class="imgBox">
+      <li><img src="images/6-1.jpg"></li>
+      <li><img src="images/1-1.jpg"></li>
+      <li><img src="images/2-1.jpg"></li>
+      <li><img src="images/3-1.jpg"></li>
+      <li><img src="images/4-1.jpg"></li>
+      <li><img src="images/5-1.jpg"></li>
+      <li><img src="images/6-1.jpg"></li>
+      <li><img src="images/1-1.jpg"></li>
+    </ul>
+    <ul class="btnBox">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    <div class="btn prev">&lt;</div>
+    <div class="btn next">&gt;</div>
+  </div>
+
+  <script src="moveSpeed.js"></script>
+  <script type="text/javascript">
+    var oBtns = document.getElementsByClassName("btn"),
+        oImgBox = document.getElementsByClassName("imgBox")[0],
+        oImgLis = oImgBox.getElementsByTagName("li"),
+        oBtnLis = document.getElementsByClassName("btnBox")[0].getElementsByTagName("li"); 
+
+    var _index = 1;
+    var startTime = new Date();
+    var timer = null;
+
+    oBtnLis[_index-1].style.backgroundColor = "red";
+
+    for(var i = oBtns.length-1;i >= 0;i--){
+      oBtns[i].i = i;
+      oBtns[i].onclick = function(){
+        var timeDiff = new Date() - startTime;
+        if (timeDiff > 1000) {
+          if(this.i){
+          //右操作
+          //_index++
+
+          _index = _index < oImgLis.length - 1 ? ++_index : 0;
+         // oImgBox.style.left = -_index * 500 + "px";
+         console.log(_index)
+         move(oImgBox,{
+         	left:-_index * 500
+         },10,function(){
+         	if(_index == oImgLis.length - 1){
+         		_index = 1;
+         		oImgBox.style.left = -_index * 500 + "px";
+         	}
+         })
+
+        for (var j = oBtnLis.length-1 ;j >= 0;j--) {
+          oBtnLis[j].style.backgroundColor = "blue";
+        }
+        if(_index == oImgLis.length - 1){
+        	oBtnLis[0].style.backgroundColor = "red";
+        	}else{
+        	oBtnLis[_index-1].style.backgroundColor = "red";
+        	}
+
+        }else{
+          //左边
+         _index = _index <= 0 ? _index = oImgLis.length -1 : --_index;
+          //console.log(_index);
+          //oImgBox.style.left = -_index * 500 + "px";
+           move(oImgBox,{
+      	left:-_index * 500
+         },10,function(){
+         	if(_index == 0){
+         		_index = oImgLis.length - 2;
+         		oImgBox.style.left = -_index * 500 + "px";
+         	}
+         })
+
+         for (var j = oBtnLis.length-1 ;j >= 0;j--) {
+          oBtnLis[j].style.backgroundColor = "blue";
+        }
+        if(_index == 0){
+        	oBtnLis[oBtnLis.length - 1].style.backgroundColor = "red";
+        }else{
+        	oBtnLis[_index-1].style.backgroundColor = "red";
+        }
+        }
+
+        // for (var j = oBtnLis.length-1 ;j >= 0;j--) {
+        //   oBtnLis[j].style.backgroundColor = "blue";
+        // }
+        // oBtnLis[_index-1].style.backgroundColor = "red";
+        startTime = new Date();
+        }
+      }
+    }
+    //小圆点
+    for(var i = oBtnLis.length-1 ;i >= 0;i--){
+      oBtnLis[i].i = i;
+      oBtnLis[i].onclick = function() {
+        var _this = this;
+        move(oImgBox,{
+        	left:-(_this.i + 1) * 500
+        },100,function(){
+        	for (var j = oBtnLis.length-1 ;j >= 0;j--) {
+          oBtnLis[j].style.backgroundColor = "blue";
+        }
+        _this.style.backgroundColor = "red";
+        _index = _this.i + 1;
+
+        })
+        // oImgBox.style.left = -this.i * 500 + "px";
+        
+      }
+    }
+  </script>
+ </body>
+ </html>
